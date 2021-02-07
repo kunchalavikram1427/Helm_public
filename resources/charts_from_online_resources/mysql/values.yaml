@@ -1,0 +1,14 @@
+mysql:
+  labels:
+    group: com.stakater.platform
+    provider: stakater
+    version: 5.6
+  namespace: dev
+  image:
+    name: mysql
+    tag: "5.6"
+    pullPolicy: IfNotPresent
+  rootPassword: root
+  persistence:
+    enabled: false
+    volumeClaimName: mysql-dev-data-pvc

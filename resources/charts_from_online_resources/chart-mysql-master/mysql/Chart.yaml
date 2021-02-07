@@ -1,0 +1,11 @@
+apiVersion: v1
+name: mysql
+description: mysql chart that runs on kubernetes
+version: 1.0.3
+keywords:
+  - mysql
+  - kubernetes
+home: https://github.com/stakater/chart-mysql
+maintainers:
+- name: Stakater
+  email: stakater@aurorasolutions.io

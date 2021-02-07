@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.mysqlStorage.pvName }}
+  labels:
+{{ include "labels.stakater" . | indent 4 }}
+{{ include "labels.chart" . | indent 4 }}
+spec:
+  capacity:
+    storage: {{ .Values.mysqlStorage.capacity }}
+  accessModes:
+    - ReadWriteOnce
+  nfs:
+    # Create this first!
+    server: {{ .Values.mysqlStorage.efs.server }}
+    path: "{{ .Values.mysqlStorage.pvPath }}"

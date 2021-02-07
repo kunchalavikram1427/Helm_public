@@ -1,0 +1,160 @@
+---------------------------
+	HELM COMMANDS 
+---------------------------
+
+# find helm version
+$ helm version --short
+
+
+# install tiller in helm 2
+$ helm init
+
+
+# list repos
+$ helm repo list
+
+
+# add repos:
+$ helm repo add stable https://kubernetes-charts.storage.googleapis.com/
+$ helm repo add stable https://charts.helm.sh/stable
+$ helm repo add bitnami https://charts.bitnami.com/bitnami
+$ helm repo add mirantis https://charts.mirantis.com
+
+
+# update repos index
+$ helm repo update
+
+
+# remove repos
+$ helm repo remove <repo-name>
+
+
+# search for charts
+$ helm search repo mysql
+
+
+# pull a chart without installing
+$ helm pull chartrepo/chartname
+
+
+# render the template:
+$ helm template <release-name> <chart> 
+$ helm template --debug <chart>
+$ helm template --debug <chart> -f override-values.yaml 
+
+# deploy a chart/release:
+$ helm install <release-name> <chart>  - helm install demo-sql stable/mysql
+$ helm install <release-name> . - deployment from current directory
+$ helm install <release-name> <chart> --dry-run --debug  - helm install without actual commit; can generate a release name
+$ helm install chart-name --debug --dry-run
+$ helm install mychart-0.1.0.tgz
+$ helm install my-apache bitnami/apache --version 8.0.2
+
+
+# to override values with a values file, use the --values or the --f flag:
+$ helm install <release-name> <chart> --set <some_parameter>=<new_value>  - helm install my-nginx nginx --set replicaCount=2 --set service.type=LoadBalancer
+$ helm install --set user.name='student',user.password='password' stable/mysql
+$ helm install banzaicloud-stable/logging-operator --set rbac.enabled=false
+$ helm install <release-name> <chart> --values /path/to/values/file  
+$ helm install -f myvalues.yaml chart # to be verified
+$ helm install --set-string long_int=1234567890 myredis ./redis
+$ helm install my-wordpress-prod bitnami/wordpress --version 10.1.4 -f values-production.yaml
+$ helm install --values myvalues.yaml stable/mysql
+
+
+
+# to deploy the release into a Kubernetes namespace, use the --namespace flag:
+$ helm install --namespace db stable/mysql
+
+
+# list all releases:
+$ helm list --all
+
+
+# upgrade a release
+$ helm upgrade <release-name> <chart>
+$ helm upgrade -f <values-file> <release-name> <chart-name>
+$ helm upgrade my-apache bitnami/apache --version 8.0.3
+$ helm upgrade --install <release-name> --values <values-file> <chart-name>
+
+
+# rollback a release:
+$ helm rollback <release-name> <revision-number> - helm rollback demo-guestbook 1 
+
+
+# print release history
+$ helm history <release-name>
+
+
+# get/display release status
+$ helm status <release-name> 
+
+
+# delete a release
+$ helm delete <release-name> - for helm2
+$ helm uninstall <release-name> - for helm3
+$ helm uninstall --keep-history <release-name>
+
+
+# force delete a release
+$ helm delete --purge <release> - for helm2
+
+
+# get details of a release like manifests etc.,
+$ helm get all <release-name>
+$ helm get manifest <release-name>
+$ helm get manifest demo-app 
+
+Available Commands:
+  all         show all information for a named release
+  hooks       show all hooks for a named release
+  manifest    show the manifest for a named release
+  notes       show the notes for a named release
+  values      show the values used to generate the named release
+
+
+# show all the environment information of helm
+$ helm env
+
+
+# shows all values in the values.yaml file
+$ helm inspect values <chart-name>
+$ helm inspect values stable/mysql 
+
+
+# show list of needed dependencies for a chart and their download status
+$ helm dependency list <chart-name> 
+
+# download dependencies
+$ helm dependency update 
+
+
+# create a helm chart template layout
+$ helm create <chart-name> 
+
+
+# generate manifests after replacing values in templates. Can work without a cluster. No Release name generated
+$ helm template <chart-name>
+
+
+# generate manifests after replacing values in templates. helm install without actual commit; can generate a release name
+$ helm install <release-name> <chart> --dry-run --debug
+$ helm install <release-name> <chart> --dry-run --debug 2>&1 | less
+ 
+# package a chart into .tgz
+$ helm package <chart-name> 
+
+
+# push chart to a repo
+$ helm push-artifactory xyz-demofile-0.1.1.tgz http://localhost:8081/artifactory/helm-chart-artifactory-repo --username myadminusername --password myadminpass
+
+
+# examine a chart for possible issues like syntax errors and runs a series of tests to verify that the chart is well-formed.
+$ helm lint <chart-name>
+
+
+# helm plugins
+$ helm plugin list
+$ helm plugin install https://github.com/databus23/helm-diff
+$ helm diff revision <release-name> 1 2
+$ helm plugin uninstall diff

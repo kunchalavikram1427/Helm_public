@@ -1,0 +1,12 @@
+mysqlStorage:
+  labels:
+    group: com.stakater.platform
+    provider: stakater
+    version: 5.6
+  namespace: dev
+  pvName: mysql-dev-data-pv
+  pvcName: mysql-dev-data-pvc
+  pvPath: /mysql-dev-data
+  capacity: 100Gi
+  efs:
+    server: fs-blahblah.efs.us-west-2.amazonaws.com
