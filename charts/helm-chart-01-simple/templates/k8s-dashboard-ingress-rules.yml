@@ -1,0 +1,15 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: kubernetes-web-ui
+  namespace: kube-system
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: k8s-dashboard.com
+    http:
+      paths:
+      - backend:
+          serviceName: k8dash
+          servicePort: 80

@@ -1,0 +1,115 @@
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: {{ include "chart.fullname" . }}-ic
+rules:
+  - apiGroups:
+      - ""
+    resources:
+      - services
+      - endpoints
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+      - extensions
+    resources:
+      - ingresses
+    verbs:
+      - get
+      - list
+      - watch
+  - apiGroups:
+    - extensions
+    resources:
+    - ingresses/status
+    verbs:
+    - update
+---
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  name: {{ include "chart.fullname" . }}-ic
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: {{ include "chart.fullname" . }}-ic
+subjects:
+- kind: ServiceAccount
+  name: {{ include "chart.fullname" . }}-ic
+  namespace: kube-system
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ include "chart.fullname" . }}-ic
+  namespace: kube-system
+---
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ include "chart.fullname" . }}-ic
+  namespace: kube-system
+  labels:
+    k8s-app: {{ include "chart.fullname" . }}-ic
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      k8s-app: {{ include "chart.fullname" . }}-ic
+  template:
+    metadata:
+      labels:
+        k8s-app: {{ include "chart.fullname" . }}-ic
+        name: {{ include "chart.fullname" . }}-ic
+    spec:
+      serviceAccountName: {{ include "chart.fullname" . }}-ic
+      terminationGracePeriodSeconds: 60
+      containers:
+      - image: "{{ .Values.ingressImage.repository }}:{{ .Values.ingressImage.tag }}"
+        name: {{ include "chart.fullname" . }}-lb
+        imagePullPolicy: {{ .Values.ingressImage.pullPolicy }}
+        ports:
+        - name: http
+          containerPort: 80
+        - name: admin
+          containerPort: 8080
+        args:
+        - --api
+        - --kubernetes
+        - --logLevel=INFO
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ include "chart.fullname" . }}-ic-service
+  namespace: kube-system
+spec:
+  selector:
+    k8s-app: {{ include "chart.fullname" . }}-ic
+  ports:
+    - protocol: TCP
+      port: 80
+      nodePort: {{ .Values.service.nodePort }}
+      name: web
+    - protocol: TCP
+      port: {{ .Values.service.containerPort }}
+      name: admin
+  type: {{ .Values.service.type }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "chart.fullname" . }}-ic-web-ui
+  namespace: kube-system
+spec:
+  selector:
+    k8s-app: {{ include "chart.fullname" . }}-ic
+  ports:
+  - port: 80
+    targetPort: {{ .Values.service.containerPort }}
+
+
+

@@ -1,0 +1,13 @@
+# Configure HAProxy to listen on port 80
+frontend http_front
+   bind *:80
+   default_backend http_back
+
+# Configure HAProxy to route requests to Kubernetes worker nodes 
+# on NodePort of Ingress Controller
+backend http_back
+   balance roundrobin
+   mode http
+   server srv1 192.168.0.104:30001 
+   server srv2 192.168.0.105:30001 
+   server srv3 192.168.0.106:30001 

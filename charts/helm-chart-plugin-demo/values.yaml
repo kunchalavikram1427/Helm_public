@@ -1,0 +1,5 @@
+image:
+  name: nginx
+  tag: latest
+  pullPolicy: IfNotPresent
+replicas: 1

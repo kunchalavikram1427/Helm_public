@@ -1,0 +1,5 @@
+db_data:
+  env: dev
+  db_user: dev
+  db_table: dev-db
+

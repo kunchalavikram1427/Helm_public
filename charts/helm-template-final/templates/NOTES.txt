@@ -1,0 +1,30 @@
+Thank you for installing {{ .Chart.Name }}.
+
+Your release is named {{ .Release.Name }}.
+
+To learn more about the release, try:
+
+  $ helm status {{ .Release.Name }}
+  $ helm get all {{ .Release.Name }}
+
+You can access the applications at the following urls :
+{{- if .Values.connectedcity.ingress.enabled }}
+  http://{{ .Values.connectedcity.host }}
+{{- end }}
+{{- if .Values.connectedfactory.ingress.enabled }}
+  http://{{ .Values.connectedfactory.host }}
+{{- end }}
+{{- if .Values.kubernetesdashboard.ingress.enabled }}
+  http://{{ .Values.kubernetesdashboard.host }}
+
+  To access dashboard, a token is needed to be entered
+  Get token by running the command:
+  kubectl describe secret $(kubectl get secrets | grep k8s-dashboard-app | awk '{print $1}' )
+  Copy and paste the token in the browser
+
+{{- end }}
+
+Have fun !!!
+
+Visit https://github.com/kunchalavikram1427 for more tutorials!!!
+

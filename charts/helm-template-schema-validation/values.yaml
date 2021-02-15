@@ -1,0 +1,10 @@
+
+service:
+  type: NodePort
+  name: frontend-service
+  protocol: https
+  port: 443
+
+name: frontend
+protocol: https
+port: 443

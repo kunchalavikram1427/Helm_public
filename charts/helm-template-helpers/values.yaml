@@ -1,0 +1,5 @@
+db_data:
+  env: prod
+  db_user: admin
+  db_table: test-db
+

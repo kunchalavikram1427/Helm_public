@@ -1,0 +1,12 @@
+image:
+  repository: kunchalavikram/connectedfactory
+  tag: v1
+  pullPolicy: IfNotPresent
+replicaCount: 1
+service:
+  type: ClusterIP
+  port: 80
+  containerPort: 5000
+ingress:
+  enabled: true
+  host: connected-factory.com

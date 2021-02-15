@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connectedcity-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: connectedcity
+  template:
+    metadata:
+      labels:
+        app: connectedcity
+    spec:
+      containers:
+      - name: connectedcity
+        image: kunchalavikram/connectedcity:v1
+        ports:
+        - containerPort: 5000
+        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: connectedcity-service
+spec:
+  ports:
+  - port: 80
+    targetPort: 5000
+  selector:
+    app: connectedcity
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connectedfactory-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: connectedfactory
+  template:
+    metadata:
+      labels:
+        app: connectedfactory
+    spec:
+      containers:
+      - name: connectedfactory
+        image: kunchalavikram/connectedfactory:v1
+        ports:
+        - containerPort: 5000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: connectedfactory-service
+spec:
+  ports:
+  - port: 80
+    targetPort: 5000
+  selector:
+    app: connectedfactory
+
+
+

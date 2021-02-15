@@ -1,0 +1,29 @@
+ingressImage:
+  repository: traefik
+  tag: v1.7
+  pullPolicy: IfNotPresent
+replicaCount: 1
+service:
+  type: NodePort
+  port: 80
+  containerPort: 8080
+  nodePort: 30001
+
+metricsServer:
+  repository: k8s.gcr.io/metrics-server-amd64
+  tag: v0.3.6
+
+connectedcity:
+  ingress:
+    enabled: true
+  host: connected-city.com
+
+connectedfactory:
+  ingress:
+    enabled: true
+  host: connected-factory.com
+
+kubernetesdashboard:
+  ingress:
+    enabled: true
+  host: dashboard.com

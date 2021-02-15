@@ -1,0 +1,30 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: {{ include "dashboard.fullname" . }}
+  namespace: kube-system
+spec:
+  replicas: {{ .Values.replicaCount }}1
+  selector:
+    matchLabels:
+      k8s-app: {{ .Release.Name }}-{{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        k8s-app: {{ .Release.Name }}-{{ .Chart.Name }}
+    spec:
+      containers:
+      - name: {{ include "dashboard.fullname" . }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports:
+        - containerPort: {{ .Values.service.containerPort }}
+        livenessProbe:
+          httpGet:
+            scheme: HTTP
+            path: /
+            port: {{ .Values.service.containerPort }}
+          initialDelaySeconds: 30
+          timeoutSeconds: 30
+      nodeSelector:
+        'beta.kubernetes.io/os': linux

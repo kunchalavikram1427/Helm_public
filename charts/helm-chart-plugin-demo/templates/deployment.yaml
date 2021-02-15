@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "chart.fullname" . }}
+  labels: {{ include "chart.labels" . | nindent 4 }}
+spec:
+  replicas: {{ default 1 .Values.replicas | int }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}-{{ .Chart.Name }}
+  template:
+    metadata:
+      name: myapp-pod
+      labels:
+        app: {{ .Release.Name }}-{{ .Chart.Name }}
+    spec:
+      containers:
+      - name: {{ include "chart.fullname" . }}
+        image: "{{ .Values.image.name }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        ports: 
+        - containerPort: 80

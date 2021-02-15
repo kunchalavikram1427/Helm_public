@@ -1,0 +1,6 @@
+apiVersion: v2
+name: connected-factory-chart
+appVersion: "1.0"
+description: A Helm chart for connected factory application
+version: 0.1.0
+type: application

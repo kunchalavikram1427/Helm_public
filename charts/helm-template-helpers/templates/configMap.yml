@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-configmap
+  {{- template "mychart.labels" }}
+data:
+  {{- with .Values.db_data }}
+  env: {{ .env | default "dev" }}
+  db_user: {{ .db_user | lower }}
+  db: {{ .db_table | lower }} 
+  {{- end }}
+
+
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: {{ .Release.Name }}-configmap
+#   labels:
+# {{ include "mychart.app" . | indent 4 }}
+# data:
+#   {{- with .Values.db_data }}
+#   env: {{ .env | default "dev" }}
+#   db_user: {{ .db_user | lower }}
+#   db: {{ .db_table | lower }} 
+#   {{- end }}
+# {{ include "mychart.app" . | indent 2 }}
+
+
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: {{ .Release.Name }}-configmap
+# data:
+#   {{- with .Values.db_data }}
+#   env: {{ .env | default "dev" }}
+#   db_user: {{ .db_user | lower }}
+#   {{- end }}
+#   db: {{ template "myChart.dbName" .Values }}

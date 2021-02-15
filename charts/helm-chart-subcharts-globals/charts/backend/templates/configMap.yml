@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}-configmap
+data:
+  {{- with .Values.db_data }}
+  env: {{ .env | default "dev" }}
+  db_user: {{ .db_user | lower }}
+  db: {{ .db_table | lower }} 
+  {{- end }}
+  debug: {{ .Values.global.debug }}
+  

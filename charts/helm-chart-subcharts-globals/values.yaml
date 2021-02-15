@@ -1,0 +1,13 @@
+db_data:
+  env: prod
+  db_user: admin
+  db_table: admin-db
+
+backend:
+  db_data:
+    env: test
+    db_user: test
+    db_table: test-db
+
+global:
+  debug: true

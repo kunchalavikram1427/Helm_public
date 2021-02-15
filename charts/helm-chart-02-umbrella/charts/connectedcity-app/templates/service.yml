@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: connectedcity-service
+spec:
+  ports:
+  - port: 80
+    targetPort: 5000
+  selector:
+    app: connectedcity

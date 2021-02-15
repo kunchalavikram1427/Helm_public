@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "connectedcity.fullname" . }}
+  labels:
+    name: {{ include "connectedcity.fullname" . }}
+spec:
+  ports:
+  - protocol: "TCP"
+    port: {{ .Values.service.port }}
+    targetPort: {{ .Values.service.containerPort }}
+  selector:
+    app: {{ .Release.Name }}-{{ .Chart.Name }}

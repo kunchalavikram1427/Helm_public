@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: connectedfactory-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: connectedfactory
+  template:
+    metadata:
+      labels:
+        app: connectedfactory
+    spec:
+      containers:
+      - name: connectedfactory
+        image: kunchalavikram/connectedfactory:v1
+        ports:
+        - containerPort: 5000
+
+

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: demo-json-schema
+appVersion: "1.0"
+description: A Demo json schema validation
+version: 1.0.0
+type: application
